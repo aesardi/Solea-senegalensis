@@ -9,7 +9,7 @@ metaData.order      = 'Pleuronectiformes';
 metaData.family     = 'Soleidae';
 metaData.species    = 'Solea_senegalensis'; 
 metaData.species_en = 'Senegalese sole'; 
-%% check the ecocodes!! --> for labels see : http://www.bio.vu.nl/thb/deb/deblab/add_my_pet/AmPeco.html
+
 metaData.ecoCode.climate = {'MC';'MB'};
 metaData.ecoCode.ecozone = {'MAE';'MAm'};
 metaData.ecoCode.habitat = {'0jMp', 'jiMcb'};
@@ -42,8 +42,9 @@ metaData.date_acc    = [2021 07 29];
 data.ah = 1.58; units.ah = 'd'; label.ah = 'age at hatching'; bibkey.ah = 'YufeParr1999'; 
  temp.ah = C2K(19.5) ; units.temp.ah = 'K'; label.temp.ah = 'temperature';
  comment.ah = 'approx 38h from fertilization to hatching rounded to 2 days';
-data.ab = 4;    units.ab = 'd';    label.ab = 'age at birth'; bibkey.ab = 'YufeParr1999';   
+data.ab = 3.6;    units.ab = 'd';    label.ab = 'age at birth'; bibkey.ab = 'YufeParr1999';   
   temp.ab = C2K(19.5);  units.temp.ab = 'K'; label.temp.ab = 'temperature';
+  comment.ab = 'mouth oppening happens 2 days after hatching'; 
 % data.aj = 16;      units.aj = 'd';    label.aj = 'time since fertilization at START of metamorphosis'; bibkey.aj = 'YufeParr1999'; 
 %    temp.aj = C2K(19.5);  units.temp.aj = 'K'; label.temp.aj = 'temperature'; 
 data.aj = 19;      units.aj = 'd';    label.aj = 'time since fertilization at END of metamorphosis'; bibkey.aj = 'YufeParr1999'; 
@@ -102,14 +103,37 @@ data.E0 = 1;    units.E0 = 'J';   label.E0 = 'reserve energy in egg'; bibkey.E0 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % uni-variate data
+
+% T-ah data from Carballo et al 2018 
+% laboratory experiment - reliable data -- they are also NOT on the same curve as zero-var data
+data.Tah = [... temperature (C), age at hatching (d) 
+    16      2
+    18      1.5
+    20      1    ];     
+units.Tah = {'deg C', 'd'}; label.Tah = {'temperature', 'age at hatching'};  
+bibkey.Tah = 'CarbFirm2018';
+comment.Tah = 'incubation time: from beginning of gastrula to hatching)';
+
+
+% T-ab data for 20 degrees from Manchado, 18 from RibeSara1999 and
+% 19.5 from YufeParr1999; laboratory experiments - reliable data
+% data.Tab = [... temperature (C), age at birth (d)
+%     18      4  % this 18 degrees comes from an averaged temperature, I would remove it
+%    19.5    3.6  %% ah= 1.58, mouth opening 2 dph
+%    20      4    ]; % mouth opens 3 dph, ah (20) = 1
+% units.Tab = {'deg C', 'd'}; label.Tab = {'temperature', 'age at birth, fertilization to birth'};  
+% bibkey.Tab = {'RibeSara1999', 'YufeParr1999','MancPC'};
+% comment.Tab = 'incubation time: from fertilisation to first feeding)';
+
+
 %T-aj data for 16 and 20 degrees from Manchado, 18 from RibeSara1999 and
 % 19.5 from YufeParr1999
 % laboratory experiment - reliable data
 data.Taj = [... % temperature (C), time since birth until END of metamorphosis (d)
-    16      20
+    16      20 % 23 dph complete metamorphosis - ab=3 dph just that this is happening at 20 C (the temperature decreases gradually in the experiment, larvae are really at 16 from day 7 post-hatching)
     18      17
     19      15
-    20      14];
+    20      14]; % 17 dph metamorphosis is completed - ab that occurs at 3 dph
 units.Taj = {'deg C', 'd'}; label.Taj = {'temperature', 'time since birth at endmetamorphosis'};
 bibkey.Taj = {'MancPC', 'RibeSara1999', 'YufeParr1999'};
 comment.Taj = 'development time: from first feeding to metamorphosis)';
@@ -745,7 +769,7 @@ metaData.grp.comment = {comment1, comment2,comment3,comment4,comment5,comment6,c
 
 %% Facts
 F1 = 'Senegalese sole females grow faster and mature later than males';
-metaData.bibkey.F1 = 'MoraArag2016'; 
+metaData.bibkey.F1 = 'MoraArag2014'; 
 metaData.facts = struct('F1',F1);
 
 %% Discussion points
@@ -784,7 +808,6 @@ bibkey = 'Kooy2010'; type = 'Book'; bib = [ ...  % used in setting of chemical p
 'howpublished = {\url{http://www.bio.vu.nl/thb/research/bib/Kooy2010.html}}'];
 metaData.biblist.(bibkey) = ['''@', type, '{', bibkey, ', ' bib, '}'';'];
 %
-%% !! to include: MoraArag2016 
 bibkey = 'CanaFern1999'; type = 'Article'; bib = [ ... 
 'author = {Canavate, J. Pedro and Fernandez-Diaz, C.}, ' ... 
 'year   = {1999}, ' ...
@@ -794,6 +817,17 @@ bibkey = 'CanaFern1999'; type = 'Article'; bib = [ ...
 'number = {3-4}, '...
 'doi    = {10.1016/S0044-8486(99)00021-6}, '...
 'pages  = {255-263}'];
+metaData.biblist.(bibkey) = ['''@', type, '{', bibkey, ', ' bib, '}'';'];  
+%
+bibkey = 'CarbFirm2018'; type = 'Article'; bib = [ ... 
+'author = {Carballo, Carlos, Firmino, Joana, Anjos, Liliana, Santos, Soraia,Power, Deborah M., Santos, Soraia, Manchado, Manuel}, ' ... 
+'year   = {2018}, ' ...
+'title  = {Short- and long-term effects on growth and expression patterns in response to incubation temperatures in Senegalese sole}, ' ...
+'journal= {Aquaculture}, ' ...
+'volume = {495}, ' ...
+'number = {April}, '...
+'doi    = {10.1016/j.aquaculture.2018.05.043}, '...
+'pages  = {222-231}'];
 metaData.biblist.(bibkey) = ['''@', type, '{', bibkey, ', ' bib, '}'';'];  
 % 
 bibkey = 'DiniRibe1999'; type = 'Article'; bib = [ ... 
@@ -816,6 +850,17 @@ metaData.biblist.(bibkey) = ['''@', type, '{', bibkey, ', ' bib, '}'';'];
 bibkey = 'MancPC'; type = 'Misc'; bib = [ ... 
 'author = {Manchado, Manuel},' ... 
 'note = {Personal Communication}'];
+metaData.biblist.(bibkey) = ['''@', type, '{', bibkey, ', ' bib, '}'';'];
+%
+bibkey = 'MoraArag2014'; type = 'Article'; bib = [ ...
+'author = {Morais, Sofia, Aragão, Cláudia, Cabrita, Elsa, Conceição, Luís E.C., Constenla, Maria, Costas, Benjamín, Dias, Jorge, Duncan, Neil, Engrola, Sofia, Estevez, Alicia, Gisbert, Enric, Mañanós, Evaristo, Valente, Luísa M.P., Yúfera, Manuel, Dinis, Maria Teresa}, '...
+'year = {2014}, '...
+'title = {New developments and biological insights into the farming of Solea senegalensis reinforcing its aquaculture potential},'...
+'journal = {Reviews in Aquaculture},'...
+'volume = {8},'...
+'number = {3},'...
+'doi = {10.1111/raq.12091}, '...
+'pages = {227-263}'];
 metaData.biblist.(bibkey) = ['''@', type, '{', bibkey, ', ' bib, '}'';'];
 %
 bibkey = 'OrtiFune2019'; type = 'Article'; bib = [ ...
